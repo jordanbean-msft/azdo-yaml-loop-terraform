@@ -19,4 +19,4 @@ jobs:
       matrix: $[ dependencies.generateInput.outputs['GenerateMatrix.matrix'] ]
     steps:
       - pwsh: |
-          Write-Host: $(subscriptionId)
+          Write-Host $(subscriptionId)
