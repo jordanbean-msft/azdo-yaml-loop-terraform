@@ -8,7 +8,7 @@ jobs:
   - job: generateInput
     steps:
       - pwsh: |
-          tree $(System.DefaultWorkingDirectory) /F /A
+          tree $(System.DefaultWorkingDirectory) /F
       - task: PowerShell@2
         name: GenerateMatrix
         inputs:
