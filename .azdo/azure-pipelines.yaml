@@ -49,5 +49,5 @@ jobs:
           provider: 'azurerm'
           command: apply
           workingDirectory: '$(System.DefaultWorkingDirectory)/infra'
-          commandOptions: 'main.tfplan -var="subscription_id=$(subscriptionId)"'
+          commandOptions: '-var="subscription_id=$(subscriptionId)" main.tfplan'
           environmentServiceNameAzureRM:  'rg-terraform'
