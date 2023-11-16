@@ -8,7 +8,7 @@ jobs:
   - job: generateInput
     steps:
       - pwsh: |
-          Get-Content -Path $(System.DefaultWorkingDirectory)/.azdo/subscriptionIds.csv"
+          Get-Content -Path "$(System.DefaultWorkingDirectory)/.azdo/subscriptionIds.csv"
       - task: PowerShell@2
         name: GenerateMatrix
         inputs:
