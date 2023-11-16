@@ -21,5 +21,14 @@ jobs:
     strategy:
       matrix: $[ dependencies.generateInput.outputs['GenerateMatrix.matrix'] ]
     steps:
-      - pwsh: |
-          Write-Host $(subscriptionId)
+      - task: TerraformInstaller@1
+        displayName: install terraform
+        inputs:
+          terraformVersion: latest
+      - task: TerraformCLI@1
+        displayName: 'terraform apply'
+        inputs:
+          command: apply
+          runAzLogin: false
+          workingDirectory: '$(System.DefaultWorkingDirectory)/infra'
+          commandOptions: '-var=$(subscriptionId)'
