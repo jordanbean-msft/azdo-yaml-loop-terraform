@@ -1,9 +1,14 @@
 trigger: 
   - main
 
+variables:
+  System.Debug: true
+
 jobs:
   - job: generateInput
     steps:
+      - pwsh: |
+          tree /F $(System.DefaultWorkingDirectory)
       - task: PowerShell@2
         name: GenerateMatrix
         inputs:
