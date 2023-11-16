@@ -5,6 +5,6 @@ terraform {
   required_version = ">= 0.12.26"
 }
 
-output "hello_world" {
+output "subscription_id" {
   value = "${var.subscription_id}"
 }
