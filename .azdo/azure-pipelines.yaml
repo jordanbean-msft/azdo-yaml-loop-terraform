@@ -8,7 +8,7 @@ jobs:
   - job: generateInput
     steps:
       - pwsh: |
-          tree $(System.DefaultWorkingDirectory)
+          tree $(System.DefaultWorkingDirectory) /F /A
       - task: PowerShell@2
         name: GenerateMatrix
         inputs:
@@ -24,4 +24,4 @@ jobs:
       matrix: $[ dependencies.generateInput.outputs['GenerateMatrix.matrix'] ]
     steps:
       - pwsh: |
-          Get-ChildItem Env:
+          Write-Host $(subscriptionId)
