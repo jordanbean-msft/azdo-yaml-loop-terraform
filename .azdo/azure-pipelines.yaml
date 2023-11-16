@@ -1,0 +1,23 @@
+trigger: none
+
+jobs:
+  - job: generateInput
+    steps:
+      - task: PowerShell@2
+        name: GenerateMatrix
+        inputs:
+          targetType: 'inline'
+          script: |
+            $subscriptions = Import-Csv $(System.DefaultWorkingDirectory)/.azdo/subscriptionIds.csv
+            $matrixItems = $($subscriptionIds | ForEach-Object { "$($_.SubscriptionName): { subscriptionId: $($_.SubscriptionId) }" })
+            $matrix = "{ " + "$matrixItems" + " }"
+            Write-Host "##vso[task.setvariable variable=matrix;isOutput=true]$matrix"
+  - job: runTerraform
+    dependsOn: generateInput
+    variables:
+      matrix: $[ dependencies.generateInput.outputs['GenerateMatrix.matrix'] ]
+    strategy:
+      matrix: $(matrix)
+    steps:
+      - pwsh: |
+          Write-Host: $(subscriptionId)
