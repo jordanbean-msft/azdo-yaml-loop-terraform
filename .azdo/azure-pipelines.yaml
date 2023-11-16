@@ -25,10 +25,29 @@ jobs:
         displayName: install terraform
         inputs:
           terraformVersion: latest
-      - task: TerraformCLI@1
+      - task: TerraformTaskV4@4
+        displayName: Initialize Terraform
+        inputs:
+          provider: 'azurerm'
+          command: 'init'
+          backendServiceArm: 'rg-terraform'
+          backendAzureRmResourceGroupName: 'rg-terraform'
+          backendAzureRmStorageAccountName: 'saterraformrjb'
+          backendAzureRmContainerName: 'azdo-yaml-loop-terraform'
+          backendAzureRmKey: 'state.tfstate'
+      - task: TerraformTaskV4@4
+        displayName: 'terraform plan'
+        inputs:
+          provider: 'azurerm'
+          command: plan
+          workingDirectory: '$(System.DefaultWorkingDirectory)/infra'
+          commandOptions: '-var=$(subscriptionId) -out=main.tfplan'
+          environmentServiceNameAzureRM:  'rg-terraform'
+      - task: TerraformTaskV4@4
         displayName: 'terraform apply'
         inputs:
+          provider: 'azurerm'
           command: apply
-          runAzLogin: false
           workingDirectory: '$(System.DefaultWorkingDirectory)/infra'
-          commandOptions: '-var=$(subscriptionId)'
+          commandOptions: 'main.tfplan -var=$(subscriptionId)'
+          environmentServiceNameAzureRM:  'rg-terraform'
