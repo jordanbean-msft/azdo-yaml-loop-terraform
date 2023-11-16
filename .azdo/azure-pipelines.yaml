@@ -41,7 +41,7 @@ jobs:
           provider: 'azurerm'
           command: plan
           workingDirectory: '$(System.DefaultWorkingDirectory)/infra'
-          commandOptions: '-var=$(subscriptionId) -out=main.tfplan'
+          commandOptions: '-var="subscription_id=$(subscriptionId)" -out=main.tfplan'
           environmentServiceNameAzureRM:  'rg-terraform'
       - task: TerraformTaskV4@4
         displayName: 'terraform apply'
