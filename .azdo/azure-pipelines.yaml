@@ -8,13 +8,13 @@ jobs:
   - job: generateInput
     steps:
       - pwsh: |
-          tree /F $(System.DefaultWorkingDirectory)
+          tree $(System.DefaultWorkingDirectory)
       - task: PowerShell@2
         name: GenerateMatrix
         inputs:
           targetType: 'inline'
           script: |
-            $subscriptions = Import-Csv $(System.DefaultWorkingDirectory)/.azdo/subscriptionIds.csv
+            $subscriptions = Import-Csv "$(System.DefaultWorkingDirectory)/.azdo/subscriptionIds.csv"
             $matrixItems = $($subscriptionIds | ForEach-Object { "'$($_.SubscriptionName)': { 'subscriptionId': '$($_.SubscriptionId)' }" })
             $matrix = "{ " + "$matrixItems" + " }"
             Write-Host "##vso[task.setvariable variable=matrix;isOutput=true]$matrix"
