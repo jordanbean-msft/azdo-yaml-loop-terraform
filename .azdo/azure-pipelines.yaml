@@ -13,13 +13,14 @@ jobs:
           targetType: 'inline'
           script: |
             $subscriptions = Import-Csv "$(System.DefaultWorkingDirectory)/.azdo/subscriptionIds.csv"
-            $matrixItems = $($subscriptions | ForEach-Object { "'$($_.SubscriptionName)': { 'subscriptionId': '$($_.SubscriptionId)' }," })
+            $matrixItems = $($subscriptions | ForEach-Object { "'$($_.SubscriptionName)': { 'subscriptionId': '$($_.SubscriptionId)', 'tenantId': '$($_.TenantId)' }," })
             $matrix = "{ " + "$matrixItems" + " }"
             Write-Host "##vso[task.setvariable variable=matrix;isOutput=true]$matrix"
   - job: runTerraform
     dependsOn: generateInput
     strategy:
       matrix: $[ dependencies.generateInput.outputs['GenerateMatrix.matrix'] ]
+      maxParallel: 4
     steps:
       - task: TerraformInstaller@1
         displayName: install terraform
@@ -35,6 +36,7 @@ jobs:
           backendAzureRmStorageAccountName: 'saterraformrjb'
           backendAzureRmContainerName: 'azdo-yaml-loop-terraform'
           backendAzureRmKey: 'state.tfstate'
+          commandOptions: '-tenant_id=$(tenantId)'
       - task: TerraformTaskV4@4
         displayName: 'terraform plan'
         inputs:
