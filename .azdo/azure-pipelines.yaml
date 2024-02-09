@@ -13,7 +13,7 @@ jobs:
           targetType: 'inline'
           script: |
             $subscriptions = Import-Csv "$(System.DefaultWorkingDirectory)/.azdo/subscriptionIds.csv"
-            $matrixItems = $($subscriptions | ForEach-Object { "'$($_.SubscriptionName)': { 'subscriptionId': '$($_.SubscriptionId)', 'tenantId': '$($_.TenantId)', 'serviceConnectionName', $($_.ServiceConnectionName) }," })
+            $matrixItems = $($subscriptions | ForEach-Object { "'$($_.SubscriptionName)': { 'subscriptionId': '$($_.SubscriptionId)', 'tenantId': '$($_.TenantId)', 'serviceConnectionName', '$($_.ServiceConnectionName)' }," })
             $matrix = "{ " + "$matrixItems" + " }"
             Write-Host "##vso[task.setvariable variable=matrix;isOutput=true]$matrix"
   - job: runTerraform
