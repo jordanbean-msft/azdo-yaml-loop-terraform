@@ -36,7 +36,7 @@ jobs:
           backendAzureRmStorageAccountName: 'saterraformrjb'
           backendAzureRmContainerName: 'azdo-yaml-loop-terraform'
           backendAzureRmKey: 'state.tfstate'
-          commandOptions: '-tenant_id=$(tenantId)'
+          commandOptions: '-backend-config="tenant_id=$(tenantId)"'
       - task: TerraformTaskV4@4
         displayName: 'terraform plan'
         inputs:
