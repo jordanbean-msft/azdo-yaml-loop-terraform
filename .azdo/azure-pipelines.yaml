@@ -22,6 +22,7 @@ jobs:
       matrix: $[ dependencies.generateInput.outputs['GenerateMatrix.matrix'] ]
       maxParallel: 4
     steps:
+      - pwsh: (gci  env:* | sort-object name)
       - task: TerraformInstaller@1
         displayName: install terraform
         inputs:
