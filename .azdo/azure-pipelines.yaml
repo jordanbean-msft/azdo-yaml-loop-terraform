@@ -22,35 +22,8 @@ jobs:
       matrix: $[ dependencies.generateInput.outputs['GenerateMatrix.matrix'] ]
       maxParallel: 4
     steps:
-      - pwsh: (gci  env:* | sort-object name)
-      - task: TerraformInstaller@1
-        displayName: install terraform
-        inputs:
-          terraformVersion: latest
-      - task: TerraformTaskV4@4
-        displayName: Initialize Terraform
-        inputs:
-          provider: 'azurerm'
-          command: 'init'
-          backendServiceArm: $ {{ variables.serviceConnectionName }}
-          backendAzureRmResourceGroupName: 'rg-terraform'
-          backendAzureRmStorageAccountName: 'saterraformrjb'
-          backendAzureRmContainerName: 'azdo-yaml-loop-terraform'
-          backendAzureRmKey: 'state.tfstate'
-          commandOptions: '-backend-config="tenant_id=$(tenantId)"'
-      - task: TerraformTaskV4@4
-        displayName: 'terraform plan'
-        inputs:
-          provider: 'azurerm'
-          command: plan
-          workingDirectory: '$(System.DefaultWorkingDirectory)/infra'
-          commandOptions: '-var="subscription_id=$(subscriptionId)" -out=main.tfplan'
-          environmentServiceNameAzureRM: ${{ variables.serviceConnectionName }}
-      - task: TerraformTaskV4@4
-        displayName: 'terraform apply'
-        inputs:
-          provider: 'azurerm'
-          command: apply
-          workingDirectory: '$(System.DefaultWorkingDirectory)/infra'
-          commandOptions: 'main.tfplan'
-          environmentServiceNameAzureRM: ${{ variables.serviceConnectionName }}
+    - template: terraform.yaml
+      parameters:
+        subscriptionId: $(subscriptionId)
+        tenantId: $(tenantId)
+        serviceConnectionName: $(serviceConnectionName)
