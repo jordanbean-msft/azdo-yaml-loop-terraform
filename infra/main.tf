@@ -5,6 +5,11 @@ terraform {
   required_version = ">= 0.12.26"
 }
 
+resource "azurerm_resource_group" "example" {
+  name     = "example-resources"
+  location = "South Central US"
+}
+
 output "subscription_id" {
   value = "${var.subscription_id}"
 }
