@@ -1,3 +1,3 @@
 TenantId,ServiceConnectionName,SubscriptionId,SubscriptionName
-4abfaf16-9535-4531-85a9-c85268607ba,rg-terraform-tenant1,cfa014c2-6565-444f-8241-b3edd39a2a44,jordan-bean-demo-subscription
+4abfaf16-9535-4531-85a9-c85268607bae,rg-terraform-tenant1,cfa014c2-6565-444f-8241-b3edd39a2a44,jordan-bean-demo-subscription
 16b3c013-d300-468d-ac64-7eda0820b6d3,rg-terraform2-tenant2,cfa014c2-1234-5678-9012-b3edd39a2a44,Subscription2

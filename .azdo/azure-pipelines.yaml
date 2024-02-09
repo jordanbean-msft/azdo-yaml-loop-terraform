@@ -31,7 +31,7 @@ jobs:
         inputs:
           provider: 'azurerm'
           command: 'init'
-          backendServiceArm: '$(serviceConnectionName)'
+          backendServiceArm: $(serviceConnectionName)
           backendAzureRmResourceGroupName: 'rg-terraform'
           backendAzureRmStorageAccountName: 'saterraformrjb'
           backendAzureRmContainerName: 'azdo-yaml-loop-terraform'
@@ -44,7 +44,7 @@ jobs:
           command: plan
           workingDirectory: '$(System.DefaultWorkingDirectory)/infra'
           commandOptions: '-var="subscription_id=$(subscriptionId)" -out=main.tfplan'
-          environmentServiceNameAzureRM:  '$(serviceConnectionName)'
+          environmentServiceNameAzureRM: $(serviceConnectionName)
       - task: TerraformTaskV4@4
         displayName: 'terraform apply'
         inputs:
@@ -52,4 +52,4 @@ jobs:
           command: apply
           workingDirectory: '$(System.DefaultWorkingDirectory)/infra'
           commandOptions: 'main.tfplan'
-          environmentServiceNameAzureRM:  '$(serviceConnectionName)'
+          environmentServiceNameAzureRM: $(serviceConnectionName)
